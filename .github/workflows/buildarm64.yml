@@ -17,6 +17,18 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create repo
+        uses: luet-lab/luet-github-action@v0.3.1
+        with:
+          createRepo: true
+          pushCache: true
+          FINAL_REPO: ghcr.io/pluralsh/packages-arm64
+          DOCKER_USERNAME: ${{ github.repository_owner }}
+          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          DOCKER_ENDPOINT: ghcr.io
+          REPOSITORY_TYPE: docker
+          luetArch: arm64
+          luetVersion: 0.36.0
       - name: Download meta
         uses: luet-lab/luet-github-action@v0.3.1
         with:
