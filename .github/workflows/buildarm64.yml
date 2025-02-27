@@ -17,16 +17,16 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Download meta
-        uses: luet-lab/luet-github-action@v0.3.1
-        with:
-          FINAL_REPO: ghcr.io/pluralsh/packages-arm64
-          REPOSITORY_TYPE: docker
-          downloadAllMeta: true
-          downloadFromList: false
-          downloadMeta: true
-          luetArch: arm64
-          luetVersion: 0.36.0
+#      - name: Download meta
+#        uses: luet-lab/luet-github-action@v0.3.1
+#        with:
+#          FINAL_REPO: ghcr.io/pluralsh/packages-arm64
+#          REPOSITORY_TYPE: docker
+#          downloadAllMeta: true
+#          downloadFromList: false
+#          downloadMeta: true
+#          luetArch: arm64
+#          luetVersion: 0.36.0
       - name: Build packages 🔧
         uses: luet-lab/luet-github-action@v0.3.1
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
