@@ -1,0 +1,60 @@
+name: Build ARM64
+concurrency:
+  group: "master-arm64-build"
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: mkdir build
+      - name: Download meta
+        uses: luet-lab/luet-github-action@v0.3.1
+        with:
+          FINAL_REPO: ghcr.io/pluralsh/packages-arm64
+          REPOSITORY_TYPE: docker
+          downloadAllMeta: true
+          downloadFromList: false
+          downloadMeta: true
+          luetArch: arm64
+          luetVersion: 0.36.0
+      - name: Build packages 🔧
+        uses: luet-lab/luet-github-action@v0.3.1
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        with:
+          build: true
+          fromIndex: true
+          onlyMissing: true
+          FINAL_REPO: ghcr.io/pluralsh/packages-arm64
+          DOCKER_USERNAME: ${{ github.repository_owner }}
+          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          DOCKER_ENDPOINT: ghcr.io
+          REPOSITORY_TYPE: docker
+          pushFinalImages: true
+          pushCache: true
+          values: values/arm64.yaml
+          buildx: true
+          platform: linux/arm64
+          luetArch: arm64
+          luetVersion: 0.36.0
+      - name: Create repo 🔧
+        uses: luet-lab/luet-github-action@v0.3.1
+        id: create_repo
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        with:
+          FINAL_REPO: ghcr.io/pluralsh/packages-arm64
+          DOCKER_USERNAME: ${{ github.repository_owner }}
+          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          DOCKER_ENDPOINT: ghcr.io
+          REPOSITORY_TYPE: docker
+          createRepo: true
+          pushCache: true
+          revisionSHA: true
+          luetArch: arm64
+          luetVersion: 0.36.0
