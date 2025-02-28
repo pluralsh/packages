@@ -17,11 +17,28 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create repo
+        uses: luet-lab/luet-github-action@v0.3.1
+        id: create_repo
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        with:
+          FINAL_REPO: ghcr.io/pluralsh/packages
+          DOCKER_USERNAME: ${{ github.repository_owner }}
+          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          DOCKER_ENDPOINT: ghcr.io
+          REPOSITORY_TYPE: docker
+          createRepo: true
+          pushCache: true
+          revisionSHA: true
+          luetVersion: 0.36.0
       - name: Download meta
         uses: luet-lab/luet-github-action@v0.3.1
         with:
           FINAL_REPO: ghcr.io/pluralsh/packages
           REPOSITORY_TYPE: docker
+          DOCKER_USERNAME: ${{ github.repository_owner }}
+          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          DOCKER_ENDPOINT: ghcr.io
           downloadAllMeta: true
           downloadFromList: false
           downloadMeta: true
@@ -42,7 +59,7 @@ jobs:
           pushCache: true
           values: values/amd64.yaml
           luetVersion: 0.36.0
-      - name: Create repo 🔧
+      - name: Create repo
         uses: luet-lab/luet-github-action@v0.3.1
         id: create_repo
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
