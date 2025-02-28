@@ -49,6 +49,7 @@ jobs:
         uses: luet-lab/luet-github-action@v0.3.1
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         with:
+          REPOSITORY_NAME: plural
           FINAL_REPO: ghcr.io/pluralsh/packages
           DOCKER_USERNAME: ${{ github.repository_owner }}
           DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
@@ -58,3 +59,6 @@ jobs:
           pushCache: true
           revisionSHA: true
           luetVersion: 0.36.0
+      - name: Summary info
+        run: |
+          echo "Repo created at ghcr.io/pluralsh/packages:${{ steps.create_repo.outputs.LUET_PUSHED_REPO }}-repository.yaml" >> $GITHUB_STEP_SUMMARY
