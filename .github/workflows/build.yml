@@ -5,7 +5,7 @@ on:
       - main
 jobs:
   build:
-    runs-on: fast
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
         with:
@@ -19,7 +19,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Create repo
         uses: luet-lab/luet-github-action@v0.3.1
-        id: create_repo
+        id: Create Repo
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         with:
           FINAL_REPO: ghcr.io/pluralsh/packages
