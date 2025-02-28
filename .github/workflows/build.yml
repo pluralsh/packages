@@ -19,7 +19,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Create repo
         uses: luet-lab/luet-github-action@v0.3.1
-        id: Create Repo
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         with:
           FINAL_REPO: ghcr.io/pluralsh/packages
@@ -61,7 +60,6 @@ jobs:
           luetVersion: 0.36.0
       - name: Create repo
         uses: luet-lab/luet-github-action@v0.3.1
-        id: create_repo
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         with:
           FINAL_REPO: ghcr.io/pluralsh/packages
